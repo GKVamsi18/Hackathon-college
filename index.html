@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriSmart Daily • Daily Farmer Operating Portal</title>
+    <title>JaiKisaan.com • Daily Farmer Operating Portal</title>
     <meta name="description" content="All-in-one daily agricultural operating portal providing AI crop disease diagnosis, live mandi rates, irrigation advisories, profit calculators, and direct Kisan marketplace.">
     
     <!-- FontAwesome Icons -->
@@ -19,7 +19,7 @@
             <div class="brand-logo">
                 <i class="fa-solid fa-wheat-awn"></i>
                 <div>
-                    <span class="brand-title">AgriSmart Daily</span>
+                    <span class="brand-title">JaiKisaan.com</span>
                     <span class="brand-badge">Kisan OS v2.4</span>
                 </div>
             </div>
@@ -182,20 +182,70 @@
             <div class="glass-card" style="margin-bottom: 1.5rem;">
                 <div class="glass-card-header">
                     <h3 class="card-title">
-                        <i class="fa-solid fa-microscope"></i> AI Vision Crop Disease & Pest Diagnostic Engine
+                        <i class="fa-solid fa-microscope"></i> AI Vision Crop Leaf Identification & Disease Diagnostic Engine
                     </h3>
                     <span id="report-status" class="badge badge-info">Awaiting Leaf Scan</span>
+                </div>
+
+                <!-- Input Controls & Crop Type Selectors -->
+                <div style="margin-bottom: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                    <!-- Direct Camera Input for Mobile/Desktop Camera -->
+                    <label for="leaf-camera-input" class="btn btn-primary" style="cursor: pointer; margin-bottom: 0;">
+                        <i class="fa-solid fa-camera"></i> Take Photo (Camera Access)
+                    </label>
+                    <input type="file" id="leaf-camera-input" accept="image/*" capture="environment" class="file-input-hidden">
+
+                    <button id="open-camera-btn" class="btn btn-secondary">
+                        <i class="fa-solid fa-video"></i> Open Live Webcam
+                    </button>
+                    
+                    <label for="leaf-file-input" class="btn btn-secondary" style="cursor: pointer; margin-bottom: 0;">
+                        <i class="fa-solid fa-folder-open"></i> Choose Image File
+                    </label>
+                    <input type="file" id="leaf-file-input" accept="image/*" class="file-input-hidden">
+                    
+                    <div style="flex: 1; min-width: 200px; display: flex; align-items: center; gap: 0.4rem;">
+                        <label style="font-size: 0.85rem; color: var(--text-muted); white-space: nowrap;"><i class="fa-solid fa-seedling"></i> Crop Type:</label>
+                        <select id="target-crop-select" class="form-control" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                            <option value="auto">Auto-Detect Crop</option>
+                            <option value="wheat">Wheat (Kanak)</option>
+                            <option value="paddy">Paddy / Rice (Dhan)</option>
+                            <option value="tomato">Tomato (Tamatar)</option>
+                            <option value="potato">Potato (Aloo)</option>
+                            <option value="cotton">Cotton (Kapas)</option>
+                            <option value="maize">Maize / Corn (Makka)</option>
+                            <option value="sugarcane">Sugarcane (Ganna)</option>
+                            <option value="chili">Chili / Pepper (Mirchi)</option>
+                            <option value="mustard">Mustard (Sarson)</option>
+                            <option value="soybean">Soybean</option>
+                            <option value="groundnut">Groundnut (Moongphali)</option>
+                        </select>
+                    </div>
+
+                    <div style="flex: 1; min-width: 220px; display: flex; align-items: center; gap: 0.4rem;">
+                        <label style="font-size: 0.85rem; color: var(--text-muted); white-space: nowrap;"><i class="fa-solid fa-flask"></i> Or Preset:</label>
+                        <select id="sample-preset-select" class="form-control" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                            <option value="">-- Preset Crop Samples --</option>
+                            <option value="wheat_rust">Wheat • Yellow Stripe Rust</option>
+                            <option value="tomato_blight">Tomato • Early Leaf Blight</option>
+                            <option value="paddy_blast">Paddy • Leaf Blast Disease</option>
+                            <option value="cotton_spot">Cotton • Bacterial Leaf Spot</option>
+                            <option value="corn_healthy">Maize • Healthy Leaf</option>
+                            <option value="potato_blight">Potato • Late Blight Fungus</option>
+                            <option value="chili_curl">Chili • Leaf Curl Virus</option>
+                            <option value="sugarcane_redrot">Sugarcane • Red Rot Disease</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="scanner-container">
                     <!-- Dropzone Input Side -->
                     <div>
                         <div class="dropzone-box" id="dropzone-default">
-                            <input type="file" id="leaf-file-input" accept="image/*" class="file-input-hidden">
                             <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
-                            <h4>Drag & Drop Leaf Photo Here</h4>
+                            <h4>Capture or Drop Crop Leaf Photo</h4>
                             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.4rem;">
-                                Supports JPG, PNG (Max 10MB) or tap to capture photo
+                                Uses browser camera access or image files (JPG, PNG). AI will identify crop type, diagnose leaf damage, and prescribe remedies.
                             </p>
                         </div>
 
@@ -205,16 +255,13 @@
                             <div id="scan-overlay" class="scan-overlay hidden">
                                 <div class="scanner-beam"></div>
                                 <i class="fa-solid fa-gear fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-                                <span id="scan-status-text" class="scan-status-text">Analyzing leaf spots...</span>
+                                <span id="scan-status-text" class="scan-status-text">Analyzing leaf spots & cellular structures...</span>
                             </div>
                         </div>
 
-                        <div class="scanner-actions">
-                            <button id="use-sample-btn" class="btn btn-primary" style="flex: 1;">
-                                <i class="fa-solid fa-flask"></i> Scan Sample Leaf Image
-                            </button>
-                            <button id="clear-sample-btn" class="btn btn-secondary">
-                                <i class="fa-solid fa-trash-can"></i> Clear
+                        <div class="scanner-actions" style="margin-top: 1rem;">
+                            <button id="clear-sample-btn" class="btn btn-secondary" style="width: 100%;">
+                                <i class="fa-solid fa-trash-can"></i> Clear Scan & Reset
                             </button>
                         </div>
                     </div>
@@ -222,44 +269,47 @@
                     <!-- Diagnosis Results Side -->
                     <div class="report-card">
                         <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: #ffffff;">
-                            <i class="fa-solid fa-file-medical"></i> Diagnostic Health Report
+                            <i class="fa-solid fa-file-medical"></i> Crop Diagnostic & Remedy Report
                         </h4>
 
                         <div id="results-placeholder" class="report-placeholder">
                             <i class="fa-solid fa-seedling"></i>
-                            <p>Upload a crop leaf image or click <strong>"Scan Sample Leaf Image"</strong> to view real-time disease diagnosis, severity scale, and bio-pesticide dosage.</p>
+                            <p>Tap <strong>"Scan via Live Camera"</strong>, upload a picture, or select a sample preset to view instant crop identification, reasons for damage, precautionary steps, pesticide recommendations, and prices.</p>
                         </div>
 
                         <div id="results-content" class="hidden">
-                            <div class="diagnosis-box">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                    <div>
-                                        <div class="disease-name">Yellow Stripe Rust (Puccinia striiformis)</div>
-                                        <p style="font-size: 0.82rem; color: var(--text-muted);">Detected in Wheat (Kanak) • Fungal Infection</p>
-                                    </div>
-                                    <span class="badge badge-warning">Moderate Risk</span>
-                                </div>
+                            <!-- Dynamic Content Populated by JS -->
+                            <div id="crop-diag-header" class="diagnosis-box">
+                                <!-- Populated dynamically -->
+                            </div>
 
-                                <div style="margin-top: 0.85rem;">
-                                    <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
-                                        <span>Infection Severity</span>
-                                        <span>32% Leaf Surface Affected</span>
-                                    </div>
-                                    <div class="severity-meter">
-                                        <div class="severity-fill"></div>
-                                    </div>
+                            <div style="margin-top: 1rem;">
+                                <h5 style="font-size: 0.92rem; color: #f87171; margin-bottom: 0.5rem;">
+                                    <i class="fa-solid fa-circle-exclamation"></i> Possible Reasons & Causes of Damage
+                                </h5>
+                                <div id="crop-diag-causes" style="font-size: 0.88rem; color: var(--text-main); background: rgba(239, 68, 68, 0.08); border-left: 3px solid #ef4444; padding: 0.75rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 1rem;">
+                                    <!-- Populated dynamically -->
                                 </div>
                             </div>
 
-                            <h5 style="font-size: 0.92rem; color: var(--primary); margin: 1rem 0 0.5rem;">
-                                <i class="fa-solid fa-prescription-bottle-medical"></i> Recommended Treatment & Spray Guide
-                            </h5>
-                            <ul class="remedy-list">
-                                <li>Foliar spray of <strong>Propiconazole 25% EC</strong> @ 200 ml per acre mixed in 200 Liters of water.</li>
-                                <li>Ensure uniform spray coverage on both upper and lower leaf surfaces during morning hours.</li>
-                                <li>Maintain balanced Nitrogen application; avoid excessive Urea during current flag leaf stage.</li>
-                                <li>Repeat spray after 14 days if humid cloud conditions persist.</li>
-                            </ul>
+                            <div>
+                                <h5 style="font-size: 0.92rem; color: #38bdf8; margin-bottom: 0.5rem;">
+                                    <i class="fa-solid fa-shield-halved"></i> Precautionary Steps to Avoid Further Damage
+                                </h5>
+                                <ul id="crop-diag-precautions" class="remedy-list" style="margin-bottom: 1rem;">
+                                    <!-- Populated dynamically -->
+                                </ul>
+                            </div>
+
+                            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); padding: 1rem; border-radius: var(--radius-sm);">
+                                <h5 style="font-size: 0.95rem; color: var(--primary); margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center;">
+                                    <span><i class="fa-solid fa-prescription-bottle-medical"></i> Recommended Chemical / Pesticide Solution</span>
+                                    <span id="pesticide-price-tag" class="badge badge-success" style="font-size: 0.85rem; padding: 0.35rem 0.65rem;">₹480 / bottle</span>
+                                </h5>
+                                <div id="crop-diag-pesticide-details" style="font-size: 0.88rem; color: var(--text-main);">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -284,13 +334,28 @@
                     </div>
                     <div style="width: 220px;">
                         <select id="state-select" class="form-control">
-                            <option value="all">All Mandi States</option>
-                            <option value="Punjab">Punjab</option>
-                            <option value="Haryana">Haryana</option>
-                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="all">All States</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
                             <option value="Gujarat">Gujarat</option>
-                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Jammu & Kashmir">Jammu &amp; Kashmir</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
                             <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Odisha">Odisha</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Uttarakhand">Uttarakhand</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="West Bengal">West Bengal</option>
                         </select>
                     </div>
                 </div>
@@ -333,22 +398,306 @@
 
         <!-- 4. TAB: WEATHER & ADVISORY -->
         <section id="tab-advisory" class="tab-content">
+            <!-- Location Control Bar -->
+            <div class="glass-card" style="margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 class="card-title" style="font-size: 1.15rem; margin-bottom: 0.2rem;">
+                            <i class="fa-solid fa-location-dot" style="color: var(--primary);"></i> Field Location Weather & Climate Station
+                        </h3>
+                        <p id="weather-location-name" style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
+                            Location: Khanna, Punjab • GPS: 30.70° N, 76.21° E
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                        <button id="detect-gps-btn" class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-crosshairs"></i> Use My GPS Location
+                        </button>
+                        <div style="position:relative;">
+                            <div style="display:flex; align-items:center; gap:0.4rem; margin-bottom:0.35rem;">
+                                <i class="fa-solid fa-magnifying-glass" style="font-size:0.8rem; color:var(--text-muted);"></i>
+                                <input type="text" id="location-search" class="form-control" placeholder="Search city or state..." style="padding:0.3rem 0.6rem; font-size:0.82rem; width:230px;" oninput="filterLocationOptions()">
+                            </div>
+                            <select id="weather-location-select" class="form-control" style="width: 230px; padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                                <!-- Punjab -->
+                                <optgroup label="Punjab">
+                                    <option value="khanna">Khanna, Punjab</option>
+                                    <option value="ludhiana">Ludhiana, Punjab</option>
+                                    <option value="amritsar">Amritsar, Punjab</option>
+                                    <option value="patiala">Patiala, Punjab</option>
+                                    <option value="bathinda">Bathinda, Punjab</option>
+                                    <option value="gurdaspur">Gurdaspur, Punjab</option>
+                                    <option value="ferozepur">Ferozepur, Punjab</option>
+                                </optgroup>
+                                <!-- Haryana -->
+                                <optgroup label="Haryana">
+                                    <option value="karnal">Karnal, Haryana</option>
+                                    <option value="hisar">Hisar, Haryana</option>
+                                    <option value="rohtak">Rohtak, Haryana</option>
+                                    <option value="sirsa">Sirsa, Haryana</option>
+                                    <option value="ambala">Ambala, Haryana</option>
+                                    <option value="panipat">Panipat, Haryana</option>
+                                    <option value="fatehabad">Fatehabad, Haryana</option>
+                                </optgroup>
+                                <!-- Uttar Pradesh -->
+                                <optgroup label="Uttar Pradesh">
+                                    <option value="agra">Agra, Uttar Pradesh</option>
+                                    <option value="lucknow">Lucknow, Uttar Pradesh</option>
+                                    <option value="varanasi">Varanasi, Uttar Pradesh</option>
+                                    <option value="allahabad">Prayagraj, Uttar Pradesh</option>
+                                    <option value="gorakhpur">Gorakhpur, Uttar Pradesh</option>
+                                    <option value="meerut">Meerut, Uttar Pradesh</option>
+                                    <option value="bareilly">Bareilly, Uttar Pradesh</option>
+                                    <option value="moradabad">Moradabad, Uttar Pradesh</option>
+                                    <option value="muzaffarnagar">Muzaffarnagar, Uttar Pradesh</option>
+                                    <option value="shahjahanpur">Shahjahanpur, Uttar Pradesh</option>
+                                </optgroup>
+                                <!-- Madhya Pradesh -->
+                                <optgroup label="Madhya Pradesh">
+                                    <option value="indore">Indore, Madhya Pradesh</option>
+                                    <option value="bhopal">Bhopal, Madhya Pradesh</option>
+                                    <option value="jabalpur">Jabalpur, Madhya Pradesh</option>
+                                    <option value="sagar">Sagar, Madhya Pradesh</option>
+                                    <option value="rewa">Rewa, Madhya Pradesh</option>
+                                    <option value="gwalior">Gwalior, Madhya Pradesh</option>
+                                    <option value="ujjain">Ujjain, Madhya Pradesh</option>
+                                    <option value="khandwa">Khandwa, Madhya Pradesh</option>
+                                </optgroup>
+                                <!-- Maharashtra -->
+                                <optgroup label="Maharashtra">
+                                    <option value="nashik">Nashik, Maharashtra</option>
+                                    <option value="pune">Pune, Maharashtra</option>
+                                    <option value="nagpur">Nagpur, Maharashtra</option>
+                                    <option value="aurangabad">Aurangabad, Maharashtra</option>
+                                    <option value="solapur">Solapur, Maharashtra</option>
+                                    <option value="latur">Latur, Maharashtra</option>
+                                    <option value="amravati">Amravati, Maharashtra</option>
+                                    <option value="kolhapur">Kolhapur, Maharashtra</option>
+                                    <option value="jalgaon">Jalgaon, Maharashtra</option>
+                                    <option value="akola">Akola, Maharashtra</option>
+                                </optgroup>
+                                <!-- Gujarat -->
+                                <optgroup label="Gujarat">
+                                    <option value="rajkot">Rajkot, Gujarat</option>
+                                    <option value="ahmedabad">Ahmedabad, Gujarat</option>
+                                    <option value="surat">Surat, Gujarat</option>
+                                    <option value="vadodara">Vadodara, Gujarat</option>
+                                    <option value="junagadh">Junagadh, Gujarat</option>
+                                    <option value="anand">Anand, Gujarat</option>
+                                    <option value="gandhinagar">Gandhinagar, Gujarat</option>
+                                    <option value="bhavnagar">Bhavnagar, Gujarat</option>
+                                </optgroup>
+                                <!-- Rajasthan -->
+                                <optgroup label="Rajasthan">
+                                    <option value="jaipur">Jaipur, Rajasthan</option>
+                                    <option value="jodhpur">Jodhpur, Rajasthan</option>
+                                    <option value="kota">Kota, Rajasthan</option>
+                                    <option value="udaipur">Udaipur, Rajasthan</option>
+                                    <option value="bikaner">Bikaner, Rajasthan</option>
+                                    <option value="alwar">Alwar, Rajasthan</option>
+                                    <option value="sikar">Sikar, Rajasthan</option>
+                                    <option value="sriganganagar">Sri Ganganagar, Rajasthan</option>
+                                </optgroup>
+                                <!-- Bihar -->
+                                <optgroup label="Bihar">
+                                    <option value="patna">Patna, Bihar</option>
+                                    <option value="gaya">Gaya, Bihar</option>
+                                    <option value="muzaffarpur">Muzaffarpur, Bihar</option>
+                                    <option value="bhagalpur">Bhagalpur, Bihar</option>
+                                    <option value="darbhanga">Darbhanga, Bihar</option>
+                                    <option value="begusarai">Begusarai, Bihar</option>
+                                    <option value="motihari">Motihari, Bihar</option>
+                                </optgroup>
+                                <!-- West Bengal -->
+                                <optgroup label="West Bengal">
+                                    <option value="kolkata">Kolkata, West Bengal</option>
+                                    <option value="bardhaman">Bardhaman, West Bengal</option>
+                                    <option value="siliguri">Siliguri, West Bengal</option>
+                                    <option value="murshidabad">Murshidabad, West Bengal</option>
+                                    <option value="nadia">Nadia, West Bengal</option>
+                                </optgroup>
+                                <!-- Andhra Pradesh -->
+                                <optgroup label="Andhra Pradesh">
+                                    <option value="vijayawada">Vijayawada, Andhra Pradesh</option>
+                                    <option value="visakhapatnam">Visakhapatnam, Andhra Pradesh</option>
+                                    <option value="kurnool">Kurnool, Andhra Pradesh</option>
+                                    <option value="guntur">Guntur, Andhra Pradesh</option>
+                                    <option value="nellore">Nellore, Andhra Pradesh</option>
+                                    <option value="ongole">Ongole, Andhra Pradesh</option>
+                                </optgroup>
+                                <!-- Telangana -->
+                                <optgroup label="Telangana">
+                                    <option value="hyderabad">Hyderabad, Telangana</option>
+                                    <option value="warangal">Warangal, Telangana</option>
+                                    <option value="nizamabad">Nizamabad, Telangana</option>
+                                    <option value="karimnagar">Karimnagar, Telangana</option>
+                                    <option value="adilabad">Adilabad, Telangana</option>
+                                    <option value="nalgonda">Nalgonda, Telangana</option>
+                                </optgroup>
+                                <!-- Karnataka -->
+                                <optgroup label="Karnataka">
+                                    <option value="bangalore">Bangalore, Karnataka</option>
+                                    <option value="belgaum">Belgaum, Karnataka</option>
+                                    <option value="mysore">Mysore, Karnataka</option>
+                                    <option value="hubli">Hubli, Karnataka</option>
+                                    <option value="gulbarga">Gulbarga, Karnataka</option>
+                                    <option value="davangere">Davangere, Karnataka</option>
+                                    <option value="dharwad">Dharwad, Karnataka</option>
+                                </optgroup>
+                                <!-- Tamil Nadu -->
+                                <optgroup label="Tamil Nadu">
+                                    <option value="chennai">Chennai, Tamil Nadu</option>
+                                    <option value="coimbatore">Coimbatore, Tamil Nadu</option>
+                                    <option value="madurai">Madurai, Tamil Nadu</option>
+                                    <option value="trichy">Trichy, Tamil Nadu</option>
+                                    <option value="tirunelveli">Tirunelveli, Tamil Nadu</option>
+                                    <option value="thanjavur">Thanjavur, Tamil Nadu</option>
+                                    <option value="salem">Salem, Tamil Nadu</option>
+                                </optgroup>
+                                <!-- Odisha -->
+                                <optgroup label="Odisha">
+                                    <option value="bhubaneswar">Bhubaneswar, Odisha</option>
+                                    <option value="cuttack">Cuttack, Odisha</option>
+                                    <option value="sambalpur">Sambalpur, Odisha</option>
+                                    <option value="balasore">Balasore, Odisha</option>
+                                </optgroup>
+                                <!-- Jharkhand -->
+                                <optgroup label="Jharkhand">
+                                    <option value="ranchi">Ranchi, Jharkhand</option>
+                                    <option value="dhanbad">Dhanbad, Jharkhand</option>
+                                    <option value="hazaribagh">Hazaribagh, Jharkhand</option>
+                                </optgroup>
+                                <!-- Chhattisgarh -->
+                                <optgroup label="Chhattisgarh">
+                                    <option value="raipur">Raipur, Chhattisgarh</option>
+                                    <option value="bilaspur">Bilaspur, Chhattisgarh</option>
+                                    <option value="durg">Durg, Chhattisgarh</option>
+                                    <option value="jagdalpur">Jagdalpur, Chhattisgarh</option>
+                                </optgroup>
+                                <!-- Assam -->
+                                <optgroup label="Assam">
+                                    <option value="guwahati">Guwahati, Assam</option>
+                                    <option value="dibrugarh">Dibrugarh, Assam</option>
+                                    <option value="silchar">Silchar, Assam</option>
+                                    <option value="jorhat">Jorhat, Assam</option>
+                                </optgroup>
+                                <!-- Himachal Pradesh -->
+                                <optgroup label="Himachal Pradesh">
+                                    <option value="shimla">Shimla, Himachal Pradesh</option>
+                                    <option value="mandi">Mandi, Himachal Pradesh</option>
+                                    <option value="solan">Solan, Himachal Pradesh</option>
+                                    <option value="dharamsala">Dharamsala, Himachal Pradesh</option>
+                                </optgroup>
+                                <!-- Uttarakhand -->
+                                <optgroup label="Uttarakhand">
+                                    <option value="dehradun">Dehradun, Uttarakhand</option>
+                                    <option value="haridwar">Haridwar, Uttarakhand</option>
+                                    <option value="udham_singh_nagar">Udham Singh Nagar, Uttarakhand</option>
+                                </optgroup>
+                                <!-- Jammu & Kashmir -->
+                                <optgroup label="Jammu &amp; Kashmir">
+                                    <option value="jammu">Jammu, J&amp;K</option>
+                                    <option value="srinagar">Srinagar, J&amp;K</option>
+                                    <option value="anantnag">Anantnag, J&amp;K</option>
+                                </optgroup>
+                                <!-- Kerala -->
+                                <optgroup label="Kerala">
+                                    <option value="kochi">Kochi, Kerala</option>
+                                    <option value="thiruvananthapuram">Thiruvananthapuram, Kerala</option>
+                                    <option value="kozhikode">Kozhikode, Kerala</option>
+                                    <option value="thrissur">Thrissur, Kerala</option>
+                                    <option value="palakkad">Palakkad, Kerala</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Days & Future Days Weather Analysis Grid -->
+            <div class="dashboard-grid" style="margin-bottom: 1.5rem;">
+                <!-- Past 3 Days History -->
+                <div class="col-6">
+                    <div class="glass-card" style="height: 100%;">
+                        <div class="glass-card-header">
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-clock-rotate-left"></i> Previous Days Weather History (Past 3 Days)
+                            </h3>
+                            <span class="badge badge-info">Historical Log</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                            Reviews recent rainfall accumulation and humidity trends to assess residual moisture & spore build-up.
+                        </p>
+                        <div id="past-weather-container" class="weather-history-list">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future 7 Days Forecast -->
+                <div class="col-6">
+                    <div class="glass-card" style="height: 100%;">
+                        <div class="glass-card-header">
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-calendar-week"></i> Future Weather Forecast (Next 7 Days)
+                            </h3>
+                            <span class="badge badge-success">Live Forecast</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                            Incoming atmospheric shifts, rain probabilities, and heat index for field scheduling.
+                        </p>
+                        <div id="future-weather-container" class="forecast-grid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crop Weather Impact Assessment Card -->
+            <div class="glass-card" style="margin-bottom: 1.5rem;">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-cloud-bolt"></i> Crop Weather Impact & Vulnerability Analysis
+                    </h3>
+                    <span id="weather-risk-badge" class="badge badge-warning">Fungal Risk Active</span>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="col-8">
+                        <div id="crop-weather-impact-details" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main);">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div style="background: rgba(10, 18, 15, 0.6); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                            <h4 style="font-size: 0.88rem; color: var(--primary); margin-bottom: 0.5rem; text-transform: uppercase;">
+                                <i class="fa-solid fa-droplet"></i> Recommended Action
+                            </h4>
+                            <div id="weather-action-recommendation" style="font-size: 0.85rem; color: var(--text-muted);">
+                                Pausing overhead sprinkler spray for 48 hrs is advised due to past rainfall accumulation (14mm) and upcoming high humidity.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Climate Simulator -->
             <div class="dashboard-grid">
                 <div class="col-6">
                     <div class="glass-card">
                         <div class="glass-card-header">
                             <h3 class="card-title">
-                                <i class="fa-solid fa-sliders"></i> Soil & Climate Simulator Controls
+                                <i class="fa-solid fa-sliders"></i> Interactive Field Moisture & Heat Simulator
                             </h3>
                         </div>
                         <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-                            Adjust sliders to simulate field conditions and receive automated real-time irrigation & crop care recommendations.
+                            Manually adjust field soil moisture and temperature parameters to test custom irrigation advisory rules.
                         </p>
 
                         <div class="sim-controls">
                             <div class="slider-group">
                                 <div class="slider-label-row">
-                                    <label>Field Soil Moisture Level</label>
+                                    <label>Simulated Soil Moisture</label>
                                     <strong id="sim-moisture-val" style="color: var(--primary);">45%</strong>
                                 </div>
                                 <input type="range" id="sim-moisture-slider" class="custom-range" min="10" max="95" value="45">
@@ -356,7 +705,7 @@
 
                             <div class="slider-group">
                                 <div class="slider-label-row">
-                                    <label>Ambient Air Temperature</label>
+                                    <label>Simulated Temperature</label>
                                     <strong id="sim-temp-val" style="color: var(--secondary);">32°C</strong>
                                 </div>
                                 <input type="range" id="sim-temp-slider" class="custom-range" min="15" max="48" value="32">
@@ -369,7 +718,7 @@
                     <div class="glass-card">
                         <div class="glass-card-header">
                             <h3 class="card-title">
-                                <i class="fa-solid fa-robot"></i> Smart Irrigation Advisory System
+                                <i class="fa-solid fa-robot"></i> Smart Irrigation Schedule Output
                             </h3>
                         </div>
 
@@ -386,10 +735,10 @@
 
                         <div id="dynamic-advisory" class="advisory-card">
                             <h4 style="font-size: 1rem; margin-bottom: 0.5rem; color: #ffffff;">
-                                <i class="fa-solid fa-faucet-drip"></i> Daily Water Schedule Recommendation
+                                <i class="fa-solid fa-faucet-drip"></i> Irrigation Recommendation
                             </h4>
                             <p id="adv-text" style="font-size: 0.9rem; color: var(--text-main);">
-                                Soil moisture level (45%) is optimal. Hold back irrigation for 24 hours as 12mm rain is forecasted. Saves ~4,000L water/acre.
+                                Soil moisture level (45%) is optimal. Pausing drip irrigation for 24 hours as rain is predicted. Saves ~4,000L water/acre.
                             </p>
                         </div>
                     </div>
@@ -646,6 +995,43 @@
                     <button type="submit" class="btn btn-primary">Publish Listing</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Live Camera Scanner Modal -->
+    <div id="camera-modal" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 600px; text-align: center;">
+            <button class="modal-close" onclick="closeCameraModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 style="font-size: 1.2rem; margin-bottom: 0.75rem;">
+                <i class="fa-solid fa-camera" style="color: var(--primary);"></i> Live Camera Crop Scanner
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                Position your leaf clearly inside the reticle frame below for instant AI diagnosis.
+            </p>
+
+            <div class="camera-viewport-box">
+                <video id="camera-feed" autoplay playsinline muted></video>
+                <div class="camera-reticle">
+                    <div class="reticle-corner top-left"></div>
+                    <div class="reticle-corner top-right"></div>
+                    <div class="reticle-corner bottom-left"></div>
+                    <div class="reticle-corner bottom-right"></div>
+                    <span class="reticle-label">ALIGN CROP LEAF HERE</span>
+                </div>
+            </div>
+            <canvas id="camera-canvas" class="hidden"></canvas>
+
+            <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem; justify-content: center;">
+                <button id="switch-camera-btn" class="btn btn-secondary btn-sm" onclick="switchCameraFacingMode()">
+                    <i class="fa-solid fa-camera-rotate"></i> Switch Camera
+                </button>
+                <button id="capture-photo-btn" class="btn btn-primary" onclick="captureCameraSnapshot()">
+                    <i class="fa-solid fa-circle-dot"></i> Capture & Diagnose Leaf
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="closeCameraModal()">Close</button>
+            </div>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AgriSmart Daily - Premium Dark Agritech Operating System Stylesheet
+   JaiKisaan.com - Premium Dark Agritech Operating System Stylesheet
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
@@ -1096,3 +1096,161 @@ canvas {
     letter-spacing: 0.05em;
     margin-bottom: 0.4rem;
 }
+
+/* Camera Scanner & Reticle Viewport */
+.camera-viewport-box {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    background: #000000;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px solid var(--border-color);
+}
+
+#camera-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-reticle {
+    position: absolute;
+    inset: 35px;
+    border: 1px dashed rgba(16, 185, 129, 0.4);
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+.reticle-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: #10b981;
+    border-style: solid;
+}
+
+.reticle-corner.top-left {
+    top: 0;
+    left: 0;
+    border-width: 3px 0 0 3px;
+}
+
+.reticle-corner.top-right {
+    top: 0;
+    right: 0;
+    border-width: 3px 3px 0 0;
+}
+
+.reticle-corner.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 3px 3px;
+}
+
+.reticle-corner.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-width: 0 3px 3px 0;
+}
+
+.reticle-label {
+    background: rgba(0, 0, 0, 0.75);
+    color: #34d399;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+}
+
+/* Weather History & Forecast Cards */
+.weather-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.weather-history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(10, 18, 15, 0.5);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+.weather-history-item .date-col {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.weather-history-item .temp-col {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-family: 'Outfit';
+    font-weight: 600;
+}
+
+.weather-history-item .stats-col {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.6rem;
+}
+
+.forecast-card {
+    background: rgba(10, 18, 15, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.forecast-card:hover {
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
+}
+
+.forecast-card .day-title {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.forecast-card .icon-row {
+    font-size: 1.5rem;
+    margin: 0.4rem 0;
+}
+
+.forecast-card .high-temp {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Outfit';
+}
+
+.forecast-card .low-temp {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.forecast-card .rain-prob {
+    font-size: 0.72rem;
+    color: #38bdf8;
+    margin-top: 0.3rem;
+}
+
