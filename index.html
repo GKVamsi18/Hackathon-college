@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSmart Daily • Daily Farmer Operating Portal</title>
+    <meta name="description" content="All-in-one daily agricultural operating portal providing AI crop disease diagnosis, live mandi rates, irrigation advisories, profit calculators, and direct Kisan marketplace.">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Main Application Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Sticky Top Navigation Header -->
+    <header class="top-bar">
+        <div class="top-bar-container">
+            <div class="brand-logo">
+                <i class="fa-solid fa-wheat-awn"></i>
+                <div>
+                    <span class="brand-title">AgriSmart Daily</span>
+                    <span class="brand-badge">Kisan OS v2.4</span>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="date-badge">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span id="current-date-str">Loading Date...</span>
+                </div>
+                <button class="helpline-pill" onclick="showHelplineDetails()">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <span>Kisan Helpline 1800-180-1551</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero Banner Section -->
+    <div class="hero-banner">
+        <div class="hero-card">
+            <div class="hero-content">
+                <div class="hero-tag">
+                    <i class="fa-solid fa-bolt"></i> Daily Operating Dashboard
+                </div>
+                <h1>Smart Farming Intelligence for Maximum Crop Yield & Profit</h1>
+                <p>Monitor real-time mandi prices, diagnose leaf diseases with AI vision, calculate per-acre profit margins, and optimize water irrigation schedule.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs-wrapper">
+        <div class="nav-tabs">
+            <button class="nav-btn active" data-tab="tab-overview">
+                <i class="fa-solid fa-chart-pie"></i> Overview
+            </button>
+            <button class="nav-btn" data-tab="tab-scanner">
+                <i class="fa-solid fa-camera-retro"></i> Leaf Scan AI
+            </button>
+            <button class="nav-btn" data-tab="tab-mandi">
+                <i class="fa-solid fa-chart-line"></i> Mandi Rates
+            </button>
+            <button class="nav-btn" data-tab="tab-advisory">
+                <i class="fa-solid fa-cloud-sun-rain"></i> Weather & Water
+            </button>
+            <button class="nav-btn" data-tab="tab-calculator">
+                <i class="fa-solid fa-calculator"></i> Profit Calc
+            </button>
+            <button class="nav-btn" data-tab="tab-marketplace">
+                <i class="fa-solid fa-store"></i> Kisan Market
+            </button>
+            <button class="nav-btn" data-tab="tab-schemes">
+                <i class="fa-solid fa-hand-holding-hand"></i> Govt Schemes
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Container -->
+    <main class="main-container">
+
+        <!-- 1. TAB: OVERVIEW -->
+        <section id="tab-overview" class="tab-content active">
+            <!-- Key Metrics Overview Cards -->
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fa-solid fa-wheat-awn"></i>
+                    </div>
+                    <div class="metric-info">
+                        <label>Primary Crop</label>
+                        <div class="metric-val">Wheat (Kanak)</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon amber">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="metric-info">
+                        <label>Today's Modal Rate</label>
+                        <div class="metric-val text-green">₹2,380 / Qtl</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon blue">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <div class="metric-info">
+                        <label>Soil Moisture</label>
+                        <div class="metric-val text-amber">45% (Optimal)</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon purple">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div class="metric-info">
+                        <label>Est. Season Margin</label>
+                        <div class="metric-val">₹48,400 / Acre</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Quick AI Leaf Scan Widget -->
+                <div class="col-8">
+                    <div class="glass-card">
+                        <div class="glass-card-header">
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> AI Crop Disease Health Diagnostic
+                            </h3>
+                            <button class="btn btn-primary btn-sm" onclick="switchToTab('tab-scanner')">
+                                Full Diagnostic Scanner <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+                            Upload a close-up picture of your crop leaves or use our instant sample to detect fungal rust, blight, nitrogen deficiency, and pesticide recommendations.
+                        </p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div style="flex: 1; background: rgba(10, 18, 15, 0.6); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                                <h4 style="font-size: 0.95rem; color: #34d399; margin-bottom: 0.3rem;">
+                                    <i class="fa-solid fa-shield-halved"></i> Early Detection Protection
+                                </h4>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Identify crop pests 7 days before visual spreading to save up to 40% yield loss.</p>
+                            </div>
+                            <div style="flex: 1; background: rgba(10, 18, 15, 0.6); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                                <h4 style="font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.3rem;">
+                                    <i class="fa-solid fa-bottle-droplet"></i> Exact Chemical Dosage
+                                </h4>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Get precise spray recommendations per acre to eliminate chemical wastage.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Ticker -->
+                <div class="col-4">
+                    <div class="glass-card">
+                        <div class="glass-card-header">
+                            <h3 class="card-title"><i class="fa-solid fa-cloud-sun"></i> Today's Field Weather</h3>
+                            <span class="badge badge-success">Live Stream</span>
+                        </div>
+                        <div style="text-align: center; padding: 0.5rem 0;">
+                            <i class="fa-solid fa-sun" style="font-size: 3.5rem; color: #fbbf24; filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.4));"></i>
+                            <div style="font-size: 2.2rem; font-family: 'Outfit'; font-weight: 700; margin-top: 0.5rem;">32°C</div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Partly Sunny • Humidity: 58%</p>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.85rem; color: var(--text-muted);">
+                            <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i> Rainy weather expected in 48 hrs (12mm rainfall predicted).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TAB: CROP SCANNER -->
+        <section id="tab-scanner" class="tab-content">
+            <div class="glass-card" style="margin-bottom: 1.5rem;">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-microscope"></i> AI Vision Crop Disease & Pest Diagnostic Engine
+                    </h3>
+                    <span id="report-status" class="badge badge-info">Awaiting Leaf Scan</span>
+                </div>
+
+                <div class="scanner-container">
+                    <!-- Dropzone Input Side -->
+                    <div>
+                        <div class="dropzone-box" id="dropzone-default">
+                            <input type="file" id="leaf-file-input" accept="image/*" class="file-input-hidden">
+                            <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+                            <h4>Drag & Drop Leaf Photo Here</h4>
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.4rem;">
+                                Supports JPG, PNG (Max 10MB) or tap to capture photo
+                            </p>
+                        </div>
+
+                        <!-- Image Preview State -->
+                        <div id="dropzone-preview" class="preview-wrapper hidden">
+                            <img id="preview-image" src="" alt="Crop Leaf Scan Preview">
+                            <div id="scan-overlay" class="scan-overlay hidden">
+                                <div class="scanner-beam"></div>
+                                <i class="fa-solid fa-gear fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                                <span id="scan-status-text" class="scan-status-text">Analyzing leaf spots...</span>
+                            </div>
+                        </div>
+
+                        <div class="scanner-actions">
+                            <button id="use-sample-btn" class="btn btn-primary" style="flex: 1;">
+                                <i class="fa-solid fa-flask"></i> Scan Sample Leaf Image
+                            </button>
+                            <button id="clear-sample-btn" class="btn btn-secondary">
+                                <i class="fa-solid fa-trash-can"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Diagnosis Results Side -->
+                    <div class="report-card">
+                        <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: #ffffff;">
+                            <i class="fa-solid fa-file-medical"></i> Diagnostic Health Report
+                        </h4>
+
+                        <div id="results-placeholder" class="report-placeholder">
+                            <i class="fa-solid fa-seedling"></i>
+                            <p>Upload a crop leaf image or click <strong>"Scan Sample Leaf Image"</strong> to view real-time disease diagnosis, severity scale, and bio-pesticide dosage.</p>
+                        </div>
+
+                        <div id="results-content" class="hidden">
+                            <div class="diagnosis-box">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div>
+                                        <div class="disease-name">Yellow Stripe Rust (Puccinia striiformis)</div>
+                                        <p style="font-size: 0.82rem; color: var(--text-muted);">Detected in Wheat (Kanak) • Fungal Infection</p>
+                                    </div>
+                                    <span class="badge badge-warning">Moderate Risk</span>
+                                </div>
+
+                                <div style="margin-top: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
+                                        <span>Infection Severity</span>
+                                        <span>32% Leaf Surface Affected</span>
+                                    </div>
+                                    <div class="severity-meter">
+                                        <div class="severity-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 style="font-size: 0.92rem; color: var(--primary); margin: 1rem 0 0.5rem;">
+                                <i class="fa-solid fa-prescription-bottle-medical"></i> Recommended Treatment & Spray Guide
+                            </h5>
+                            <ul class="remedy-list">
+                                <li>Foliar spray of <strong>Propiconazole 25% EC</strong> @ 200 ml per acre mixed in 200 Liters of water.</li>
+                                <li>Ensure uniform spray coverage on both upper and lower leaf surfaces during morning hours.</li>
+                                <li>Maintain balanced Nitrogen application; avoid excessive Urea during current flag leaf stage.</li>
+                                <li>Repeat spray after 14 days if humid cloud conditions persist.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TAB: MANDI RATES -->
+        <section id="tab-mandi" class="tab-content">
+            <div class="glass-card" style="margin-bottom: 1.5rem;">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-chart-line"></i> Daily Mandi Commodity Market Price Index
+                    </h3>
+                    <span class="badge badge-success"><i class="fa-solid fa-rotate"></i> Updated 10 Mins Ago</span>
+                </div>
+
+                <!-- Search & State Filters -->
+                <div class="filter-bar">
+                    <div class="search-input-group">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="mandi-search" class="form-control" placeholder="Search by crop (e.g. Wheat, Paddy, Tomato)...">
+                    </div>
+                    <div style="width: 220px;">
+                        <select id="state-select" class="form-control">
+                            <option value="all">All Mandi States</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Mandi Table -->
+                <div class="table-responsive">
+                    <table class="mandi-table">
+                        <thead>
+                            <tr>
+                                <th>Commodity</th>
+                                <th>Mandi Market Location</th>
+                                <th>Min Rate (₹/Qtl)</th>
+                                <th>Max Rate (₹/Qtl)</th>
+                                <th>Modal Rate (₹/Qtl)</th>
+                                <th>7-Day Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mandi-table-body">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Price Trend Canvas Chart -->
+            <div class="glass-card">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-chart-area"></i> Wheat (Kanak) 7-Day Price Trend Analysis (Khanna Mandi)
+                    </h3>
+                    <div style="font-size: 0.85rem; color: var(--primary); font-weight: 600;">
+                        +₹130 / Qtl Gain This Week
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="mandiPriceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TAB: WEATHER & ADVISORY -->
+        <section id="tab-advisory" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="col-6">
+                    <div class="glass-card">
+                        <div class="glass-card-header">
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-sliders"></i> Soil & Climate Simulator Controls
+                            </h3>
+                        </div>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            Adjust sliders to simulate field conditions and receive automated real-time irrigation & crop care recommendations.
+                        </p>
+
+                        <div class="sim-controls">
+                            <div class="slider-group">
+                                <div class="slider-label-row">
+                                    <label>Field Soil Moisture Level</label>
+                                    <strong id="sim-moisture-val" style="color: var(--primary);">45%</strong>
+                                </div>
+                                <input type="range" id="sim-moisture-slider" class="custom-range" min="10" max="95" value="45">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label-row">
+                                    <label>Ambient Air Temperature</label>
+                                    <strong id="sim-temp-val" style="color: var(--secondary);">32°C</strong>
+                                </div>
+                                <input type="range" id="sim-temp-slider" class="custom-range" min="15" max="48" value="32">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="glass-card">
+                        <div class="glass-card-header">
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-robot"></i> Smart Irrigation Advisory System
+                            </h3>
+                        </div>
+
+                        <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem;">
+                            <div style="flex: 1; background: rgba(10, 18, 15, 0.5); padding: 0.85rem; border-radius: var(--radius-sm);">
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Current Moisture</span>
+                                <div id="soil-moist-display" style="font-size: 1.35rem; font-weight: 700; color: var(--primary);">45%</div>
+                            </div>
+                            <div style="flex: 1; background: rgba(10, 18, 15, 0.5); padding: 0.85rem; border-radius: var(--radius-sm);">
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Current Temp</span>
+                                <div id="temp-val-display" style="font-size: 1.35rem; font-weight: 700; color: var(--secondary);">32°C</div>
+                            </div>
+                        </div>
+
+                        <div id="dynamic-advisory" class="advisory-card">
+                            <h4 style="font-size: 1rem; margin-bottom: 0.5rem; color: #ffffff;">
+                                <i class="fa-solid fa-faucet-drip"></i> Daily Water Schedule Recommendation
+                            </h4>
+                            <p id="adv-text" style="font-size: 0.9rem; color: var(--text-main);">
+                                Soil moisture level (45%) is optimal. Hold back irrigation for 24 hours as 12mm rain is forecasted. Saves ~4,000L water/acre.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. TAB: PROFIT CALCULATOR -->
+        <section id="tab-calculator" class="tab-content">
+            <div class="glass-card">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-calculator"></i> Seasonal Farm Input Expense & Net Profit Calculator
+                    </h3>
+                    <span id="res-profit-status" class="badge badge-success">High Profit Margin</span>
+                </div>
+
+                <div class="calc-grid">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-ruler-combined"></i> Total Farm Land (Acres)</label>
+                        <input type="number" id="calc-acres" class="form-control" value="5" min="0.5" step="0.5" oninput="calculateFarmProfit()">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-seedling"></i> Seeds Cost / Acre (₹)</label>
+                        <input type="number" id="calc-seeds" class="form-control" value="3500" step="100" oninput="calculateFarmProfit()">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-flask"></i> Fertilizer & Spray / Acre (₹)</label>
+                        <input type="number" id="calc-fertilizers" class="form-control" value="4200" step="100" oninput="calculateFarmProfit()">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-tractor"></i> Tractor & Machinery / Acre (₹)</label>
+                        <input type="number" id="calc-machinery" class="form-control" value="2800" step="100" oninput="calculateFarmProfit()">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-users"></i> Labor & Harvest / Acre (₹)</label>
+                        <input type="number" id="calc-labor" class="form-control" value="3000" step="100" oninput="calculateFarmProfit()">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-weight-hanging"></i> Est. Yield / Acre (Quintals)</label>
+                        <input type="number" id="calc-yield" class="form-control" value="22" step="1" oninput="calculateFarmProfit()">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-tag"></i> Expected Sale Price / Qtl (₹)</label>
+                        <input type="number" id="calc-rate" class="form-control" value="2380" step="50" oninput="calculateFarmProfit()">
+                    </div>
+                </div>
+
+                <!-- Results Output Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; background: rgba(10, 18, 15, 0.6); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div>
+                        <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Net Estimated Profit</span>
+                        <div id="res-net-profit" style="font-size: 1.8rem; font-family: 'Outfit'; font-weight: 800; color: #34d399;">₹196,800</div>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Profit / Acre</span>
+                        <div id="res-profit-per-acre" class="metric-val text-green" style="font-size: 1.4rem; font-family: 'Outfit';">₹39,360</div>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Total Gross Revenue</span>
+                        <div id="res-gross-revenue" style="font-size: 1.4rem; font-family: 'Outfit'; color: #ffffff;">₹261,800</div>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Total Input Cost</span>
+                        <div id="res-total-cost" style="font-size: 1.4rem; font-family: 'Outfit'; color: var(--secondary);">₹65,000</div>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Cost / Acre</span>
+                        <div id="res-cost-per-acre" style="font-size: 1.4rem; font-family: 'Outfit'; color: var(--text-main);">₹13,500</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. TAB: KISAN MARKETPLACE -->
+        <section id="tab-marketplace" class="tab-content">
+            <div class="glass-card">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-store"></i> Direct Kisan-to-Kisan Crop & Rental Machinery Market
+                    </h3>
+                    <button id="open-post-modal-btn" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> Post New Listing
+                    </button>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="filter-pills">
+                    <button class="filter-btn active" data-filter="all">All Listings</button>
+                    <button class="filter-btn" data-filter="produce">Direct Harvest Produce</button>
+                    <button class="filter-btn" data-filter="equipment">Machinery & Harvesters</button>
+                </div>
+
+                <!-- Marketplace Cards Grid -->
+                <div id="market-grid" class="market-grid">
+
+                    <div class="market-card" data-category="produce">
+                        <div class="market-card-badge">Produce</div>
+                        <div class="market-card-body">
+                            <h3>Organic Sharbati Wheat (Grade A)</h3>
+                            <p class="seller-info"><i class="fa-solid fa-user-check"></i> Gurpreet Singh • Patiala, Punjab</p>
+                            <div class="market-price">₹2,650 <span class="unit">/ quintal</span></div>
+                            <p class="market-desc">100 Quintals of naturally solar-dried Sharbati wheat ready for direct mill purchase or seed supply.</p>
+                            <div class="market-card-actions">
+                                <button class="btn btn-primary btn-sm" onclick="contactSeller('Gurpreet Singh', '98765-43210', 'Organic Sharbati Wheat')">
+                                    <i class="fa-solid fa-phone"></i> Call Farmer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="market-card" data-category="equipment">
+                        <div class="market-card-badge badge-rent">Rental</div>
+                        <div class="market-card-body">
+                            <h3>Mahindra 575 DI Tractor with Rotavator</h3>
+                            <p class="seller-info"><i class="fa-solid fa-user-check"></i> Ramesh Kumar • Karnal, Haryana</p>
+                            <div class="market-price">₹850 <span class="unit">/ hour</span></div>
+                            <p class="market-desc">Heavy duty 45 HP tractor equipped with 6-foot rotavator available for seasonal land preparation.</p>
+                            <div class="market-card-actions">
+                                <button class="btn btn-primary btn-sm" onclick="contactSeller('Ramesh Kumar', '98123-45678', 'Mahindra Tractor Rental')">
+                                    <i class="fa-solid fa-phone"></i> Call Owner
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="market-card" data-category="produce">
+                        <div class="market-card-badge">Produce</div>
+                        <div class="market-card-body">
+                            <h3>Fresh Pusa Basmati 1121 Paddy</h3>
+                            <p class="seller-info"><i class="fa-solid fa-user-check"></i> Baldev Rajput • Ambala, Haryana</p>
+                            <div class="market-price">₹4,200 <span class="unit">/ quintal</span></div>
+                            <p class="market-desc">Premium long grain Basmati harvested with low moisture content (<14%). Bulk discount available.</p>
+                            <div class="market-card-actions">
+                                <button class="btn btn-primary btn-sm" onclick="contactSeller('Baldev Rajput', '97290-11223', 'Pusa Basmati 1121')">
+                                    <i class="fa-solid fa-phone"></i> Call Farmer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TAB: GOVERNMENT SCHEMES & HELPLINE -->
+        <section id="tab-schemes" class="tab-content">
+            <div class="glass-card">
+                <div class="glass-card-header">
+                    <h3 class="card-title">
+                        <i class="fa-solid fa-hand-holding-hand"></i> Government Agriculture Schemes & Toll-Free Kisan Helpline
+                    </h3>
+                </div>
+
+                <div class="scheme-grid">
+                    <div class="scheme-card">
+                        <div class="scheme-tag">Financial Assistance</div>
+                        <h4 style="font-size: 1.1rem; color: #ffffff; margin-bottom: 0.4rem;">PM-KISAN Samman Nidhi</h4>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                            Direct income support of ₹6,000 per year in 3 equal installments credited to small and marginal farmer bank accounts.
+                        </p>
+                        <a href="https://pmkisan.gov.in" target="_blank" class="btn btn-secondary btn-sm">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Check Beneficiary Status
+                        </a>
+                    </div>
+
+                    <div class="scheme-card">
+                        <div class="scheme-tag">Crop Insurance</div>
+                        <h4 style="font-size: 1.1rem; color: #ffffff; margin-bottom: 0.4rem;">Pradhan Mantri Fasal Bima Yojana</h4>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                            Comprehensive risk coverage against non-preventable natural risks from pre-sowing to post-harvest stages.
+                        </p>
+                        <a href="https://pmfby.gov.in" target="_blank" class="btn btn-secondary btn-sm">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Calculate Insurance Premium
+                        </a>
+                    </div>
+
+                    <div class="scheme-card">
+                        <div class="scheme-tag">Direct Contact</div>
+                        <h4 style="font-size: 1.1rem; color: #ffffff; margin-bottom: 0.4rem;">Kisan Call Center (KCC)</h4>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                            Free agricultural expert assistance in 22 regional languages regarding seeds, soil testing, and pest management.
+                        </p>
+                        <button class="btn btn-primary btn-sm" onclick="showToast('Kisan Call Center: 1800-180-1551 (Toll-Free, 6AM - 10PM)', 'fa-phone')">
+                            <i class="fa-solid fa-phone"></i> Call 1800-180-1551
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Post Listing Modal -->
+    <div id="post-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('post-modal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">
+                <i class="fa-solid fa-plus-circle" style="color: var(--primary);"></i> Post Market Listing
+            </h3>
+
+            <form id="post-listing-form" onsubmit="handlePostListing(event)">
+                <div class="form-group" style="margin-bottom: 0.85rem;">
+                    <label>Item Title</label>
+                    <input type="text" id="listing-title" class="form-control" placeholder="e.g. Organic Wheat 50 Qtl or Harvester Rental" required>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 0.85rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Category</label>
+                        <select id="listing-category" class="form-control" required>
+                            <option value="produce">Crop Produce</option>
+                            <option value="equipment">Machinery Rental</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="flex: 1;">
+                        <label>Price (₹)</label>
+                        <input type="number" id="listing-price" class="form-control" placeholder="e.g. 2400" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 0.85rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Your Name</label>
+                        <input type="text" id="listing-seller" class="form-control" placeholder="e.g. Sukhwinder Singh" required>
+                    </div>
+
+                    <div class="form-group" style="flex: 1;">
+                        <label>Phone Number</label>
+                        <input type="text" id="listing-phone" class="form-control" placeholder="e.g. 98123-XXXXX" required>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label>Description & Quantity</label>
+                    <textarea id="listing-desc" class="form-control" style="height: 80px; padding-left: 0.85rem;" placeholder="Mention location, variety, delivery terms..." required></textarea>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('post-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Publish Listing</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container">
+        <div id="toast" class="toast">
+            <i id="toast-icon" class="fa-solid fa-circle-check toast-icon"></i>
+            <span id="toast-message">Notification message</span>
+        </div>
+    </div>
+
+    <!-- Core Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
