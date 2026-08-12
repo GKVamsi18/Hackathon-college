@@ -72,7 +72,7 @@ function switchToTab(tabId, scrollTargetId = null) {
 /* Comprehensive Agricultural Knowledge Database */
 const cropDiagnosticDatabase = {
     wheat_rust: {
-        cropName: "Wheat (Kanak)",
+        cropName: "paddy (rice,biyyam)",
         scientificName: "Triticum aestivum",
         diseaseName: "Yellow Stripe Rust (Puccinia striiformis)",
         badgeClass: "badge-warning",
